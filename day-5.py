@@ -37,6 +37,6 @@ for i in range(0, len(updates)):
         correct.append(updates[i])
     
 sum = 0
-for i in range(0, len(correct)):
-    print(correct[i][len(correct[i]/2 + 1)])
+for a in range(0, len(correct)):
+    sum += int(correct[a][int(len(correct[a])/2)])
 print(sum)
