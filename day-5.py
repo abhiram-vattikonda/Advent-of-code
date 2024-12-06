@@ -3,7 +3,7 @@ while True:
     rawrule = input()
     if rawrule == "":
         break
-    x = rawrule.partition(" | ")
+    x = rawrule.partition("|")
     try:
         rules[x[0]].append(x[2])
     except KeyError:
@@ -19,6 +19,3 @@ while True:
     updates.append(y)
 
 
-print(rules)
-
-print(updates)
