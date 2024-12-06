@@ -5,45 +5,72 @@ while True:
         break
     map.append(list(raw))
 
-x = 0
-y = 0
+tempx = 0
+tempy = 0
 for i in range(0, len(map)):
     try:
-        x = map[i].index("^")
-        y = i
+        tempx = map[i].index("^")
+        tempy = i
     except ValueError:
         continue
 
 char = '^'
-count = 0
-while True:
-    try:
-        map[y][x] = 'X'
+blocks = 0
+secmap = []
 
-        if char == '^' and map[y-1][x] == "#":
-            char = '>'
-        elif char == 'v' and map[y+1][x] == "#":
-            char = '<'
-        elif char == '>' and map[y][x+1] == "#":
-            char = 'v'
-        elif char == '<' and map[y][x-1] == "#":
-            char = '^'
+for i in range(0, len(map)):
+    for j in range(0, len(map[i])):
+        x = tempx
+        y = tempy
+        char = '^'
+        for a in map:
+            secmap.append(a.copy())
+
+        secmap[i][j] = '#'
+        count = 0
+        loop = 0
+
+        '''print()
+        print()
+        for a in secmap:
+            print("".join(a))'''
+
         
-        if char == '^':
-            y -= 1
-        elif char == 'v':
-            y += 1
-        elif char == '>':
-            x += 1
-        elif char == '<':
-            x -= 1
+        
+        while loop < 500000:
+            try:
+                loop += 1
+                secmap[y][x] = 'X'
 
-        if map[y][x] =='.':
-            count += 1
-            map[y][x] = char
+                if char == '^' and secmap[y-1][x] == "#":
+                    char = '>'
+                elif char == 'v' and secmap[y+1][x] == "#":
+                    char = '<'
+                elif char == '>' and secmap[y][x+1] == "#":
+                    char = 'v'
+                elif char == '<' and secmap[y][x-1] == "#":
+                    char = '^'
+                
+                if char == '^':
+                    y -= 1
+                elif char == 'v':
+                    y += 1
+                elif char == '>':
+                    x += 1
+                elif char == '<':
+                    x -= 1
 
-    except IndexError:
-        break
+                if secmap[y][x] =='.':
+                    count += 1
+                secmap[y][x] = char
 
+            except IndexError:
+                break
+     
+        #print(count + 1)
+        if loop >= 500000:
+            blocks += 1
 
-print(count + 1)
+        secmap.clear()
+
+print(blocks)
