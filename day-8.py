@@ -1,7 +1,6 @@
-from ordered_set import OrderedSet
 
 def locations(antenne, height, width, resonace) -> int:
-    spots = OrderedSet({})
+    spots = set({})
 
     for value in antenne.keys():
         for i in range(len(antenne[value])):
