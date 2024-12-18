@@ -1,32 +1,6 @@
 from ordered_set import OrderedSet
 
-def locationcont(antenne, height, width) -> int:
-    spots = OrderedSet({})
-    for value in antenne.keys():
-        for i in range(len(antenne[value])):
-            for j in range(i + 1, len(antenne[value])):
-                p = antenne[value][i]
-                q = antenne[value][j]
-                spots.add(p)
-                spots.add(q)
-
-                # find the 2 positions
-                diff = (p[0] - q[0], p[1] - q[1])
-                a = (p[0] + diff[0], p[1] + diff[1])
-                b = (q[0] - diff[0], q[1] - diff[1])
-
-                # check if in bounds
-                while 0 <= a[0] < width and 0 <= a[1] < width:
-                    spots.add(a)
-                    a = (a[0] + diff[0], a[1] + diff[1])
-                while 0 <= b[0] < width and 0 <= b[1] < width:
-                    spots.add(b)
-                    b = (b[0] - diff[0], b[1] - diff[1])
-            
-    #print(spots)
-    return len(spots)
-
-def locations(antenne, height, width) -> int:
+def locations(antenne, height, width, resonace) -> int:
     spots = OrderedSet({})
 
     for value in antenne.keys():
@@ -34,17 +8,32 @@ def locations(antenne, height, width) -> int:
             for j in range(i + 1, len(antenne[value])):
                 p = antenne[value][i]
                 q = antenne[value][j]
+                if resonace:
+                    spots.add(p)
+                    spots.add(q)
 
                 # find the 2 positions
                 diff = (p[0] - q[0], p[1] - q[1])
                 a = (p[0] + diff[0], p[1] + diff[1])
                 b = (q[0] - diff[0], q[1] - diff[1])
 
-                # check if in bounds
-                if 0 <= a[0] < width and 0 <= a[1] < width:
-                    spots.add(a)
-                if 0 <= b[0] < width and 0 <= b[1] < width:
-                    spots.add(b)
+                # check for part 1 or 2
+                if resonace:
+                    #part 2
+                    while 0 <= a[0] < width and 0 <= a[1] < height:
+                        spots.add(a)
+                        a = (a[0] + diff[0], a[1] + diff[1])
+                    while 0 <= b[0] < width and 0 <= b[1] < height:
+                        spots.add(b)
+                        b = (b[0] - diff[0], b[1] - diff[1])
+                else:
+                    #part 1
+                    if 0 <= a[0] < width and 0 <= a[1] < height:
+                        spots.add(a)
+                    if 0 <= b[0] < width and 0 <= b[1] < height:
+                        spots.add(b)
+
+                
     #print(spots)
     return len(spots)
 
@@ -73,10 +62,11 @@ def aoc8():
                 else:
                     antenne.update({item : [(column, row)]})
 
-    #count = locations(antenne, height, width)
-    total = locationcont(antenne, height, width)
-    #print(count)
-    print(total)
+    count1 = locations(antenne, height, width, False)
+    print(count1)
+    count2 = locations(antenne, height, width, True)
+    print(count2)
+
 
     
 
