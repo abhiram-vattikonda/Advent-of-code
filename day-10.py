@@ -26,7 +26,7 @@ def calcpath(data, currentPos, val, reachablePeak) -> int:
     return len(reachablePeak), sum
 
 def aoc10():
-    file = open("puzzle10.txt", 'r')
+
     data = []
     with open('puzzle10.txt', 'r') as file:
         for line in file:
