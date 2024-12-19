@@ -3,9 +3,9 @@
 def addtuple(a:tuple, b:tuple):
     return tuple(map(lambda i, j: i + j, a, b))
 
-def fencecost(data :list, currentPos :tuple, visited :set):
+def fencecost(data :list, currentPos :tuple, visited :set, sided :set):
     visited.add(currentPos)
-    print(currentPos)
+    #print(currentPos)
     height = len(data)
     width =len(data[0])
     plot = data[currentPos[1]][currentPos[0]]
@@ -13,42 +13,19 @@ def fencecost(data :list, currentPos :tuple, visited :set):
     perimeter = 0
     area = 0
 
-    a = addtuple(currentPos, (1,0))
-    if a not in visited:
-        if a[0] < width and data[a[1]][a[0]] == plot:
-            ar, per, visited = fencecost(data, a, visited)
-            area += ar
-            perimeter += per
-        else:
-            perimeter += 1
+    directions = [(1,0), (-1,0), (0,1), (0,-1)]
 
-    a = addtuple(currentPos, (-1,0))
-    if a not in visited:
-        if a[0] >= 0 and data[a[1]][a[0]] == plot:
-            ar, per, visited = fencecost(data, a, visited)
-            area += ar
-            perimeter += per
-        else:
+    for direction in directions:
+        a = addtuple(currentPos, direction)
+        if a not in visited:
+            if 0 <= a[0] < width and 0 <= a[1] < height and data[a[1]][a[0]] == plot:
+                ar, per, visited = fencecost(data, a, visited)
+                area += ar
+                perimeter += per
+            else:
+                perimeter += 1
+        elif data[a[1]][a[0]] != plot:
             perimeter += 1
-
-    a = addtuple(currentPos, (0,1))
-    if a not in visited:
-        if a[1] < height and data[a[1]][a[0]] == plot:
-            ar, per, visited = fencecost(data, a, visited)
-            area += ar
-            perimeter += per
-        else:
-            perimeter += 1
-
-    a = addtuple(currentPos, (0,-1))
-    if a not in visited:
-        if a[1] >= 0 and data[a[1]][a[0]] == plot:
-            ar, per, visited = fencecost(data, a, visited)
-            area += ar
-            perimeter += per
-        else:
-            perimeter += 1
-
     
     return area + 1, perimeter, visited
 
@@ -65,17 +42,19 @@ def aoc12():
 
     total = 0
     visited = set({})
+    sided = set({})
     for i, x in enumerate(data):
         for j, y in enumerate(x):
             if (j, i) in visited:
                 continue
 
-            area, perimeter, visits = fencecost(data, (j,i), visited)
+            area, perimeter, visits = fencecost(data, (j,i), visited, sided)
 
             visited = visits
             total += area * perimeter
 
-            break
+            #print(f"End of Area for {y}. Cost is {area * perimeter} with {area} and {perimeter}")
+
 
 
 
