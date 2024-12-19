@@ -3,7 +3,7 @@
 def addtuple(a:tuple, b:tuple):
     return tuple(map(lambda i, j: i + j, a, b))
 
-def fencecost(data :list, currentPos :tuple, visited :set, sided :set):
+def fencecost(data :list, currentPos :tuple, visited :set):
     visited.add(currentPos)
     #print(currentPos)
     height = len(data)
@@ -48,7 +48,7 @@ def aoc12():
             if (j, i) in visited:
                 continue
 
-            area, perimeter, visits = fencecost(data, (j,i), visited, sided)
+            area, perimeter, visits = fencecost(data, (j,i), visited)
 
             visited = visits
             total += area * perimeter
