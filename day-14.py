@@ -1,21 +1,5 @@
 # add two new lines for the puzzle brfore doing
 
-def parsedata(data : list[str]):
-    a = []
-    b = []
-    res = []
-    for i,d in enumerate(data):
-        if i % 4 == 0:
-            a.append([int(x.strip().split('+')[1]) for x in d.split(':')[1].split(',')])
-        elif i % 4 == 1:
-            b.append([int(x.strip().split('+')[1]) for x in d.split(':')[1].split(',')])
-        elif i % 4 == 2:
-            # the '+10000000000000' should be there for part2, but should be removed for part 1
-            res.append([int(x.strip().split('=')[1])+10000000000000 for x in d.split(':')[1].split(',')])
-        else:
-            pass
-
-    return a, b, res
 
 def aoc13():
     data = []
