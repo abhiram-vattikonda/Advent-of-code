@@ -1,4 +1,4 @@
-
+from functools import cache
 
 def addtuple(a:tuple, b:tuple):
     return tuple(map(lambda i, j: i + j, a, b))
@@ -28,42 +28,37 @@ def movement(map_of_warehouse, dots :list, boxs : list, player : tuple, y):
     return player, boxs, dots
 
 
-
-def movement2(map_of_scale_warehouse, dots :list, boxs : list, player : tuple, y):
+def is_possible(map_of_scale_warehouse, dots, lbox, rbox, player : tuple, y):
     directions = {'^' : (0,-1), 'v' : (0,1), '<' : (-1,0), '>' : (1,0)}
     inv_directions = {'^' : (0,1), 'v' : (0,-1), '<' : (1,0), '>' : (-1,0)}
 
     a = addtuple(player, directions[y])
 
-    while a not in dots:
-        if map_of_scale_warehouse[a[1]][a[0]] == '#':
-            return player, boxs, dots
-        
-        a = addtuple(a, directions[y])
-        
-    while addtuple(a, inv_directions[y]) in boxs:
-        boxs.append(a)
-        dots.remove(a)
-        a = addtuple(a, inv_directions[y])
-        boxs.remove(a)
-        dots.append(a)
-        
-    dots.append(player)
-    player = addtuple(player, directions[y])
-    dots.remove(player)
-    return player, boxs, dots
+    if a in dots: return True
+    if map_of_scale_warehouse[a[1]][a[0]] == '#':
+        return False
+    
+    if a in lbox:
+        return is_possible(map_of_scale_warehouse, dots, lbox, rbox, a, y) and is_possible(map_of_scale_warehouse, dots, lbox, rbox, addtuple(a, (1,0)), y)
+    elif a in rbox:
+        return is_possible(map_of_scale_warehouse, dots, lbox, rbox, a, y) and is_possible(map_of_scale_warehouse, dots, lbox, rbox, addtuple(a, (-1,0)), y)
 
+    return False
 
+def move(map_of_scale_warehouse, dots, lbox, rbox, player, y):
 
+    return dots, lbox, rbox, player
 
-def moveRobot2(map_of_scale_warehouse, dots, boxs, player, instructions):
+def moveRobot2(map_of_scale_warehouse, dots, lbox, rbox, player, instructions):
     for i, x in enumerate(instructions):
         for j, y in enumerate(x):
-            player, boxs, dots = movement(map_of_scale_warehouse, dots, boxs, player, y)
+            if is_possible(map_of_scale_warehouse, dots, lbox, rbox, player, y):
+                dots, lbox, rbox, player = move(map_of_scale_warehouse, dots, lbox, rbox, player, y)
+
             #print(player)
             #print(boxs)
 
-    return boxs
+    return lbox
 
 
 
@@ -112,7 +107,8 @@ def aoc15():
 
     map_of_scale_warehouse = []
     dots.clear()
-    boxs.clear()
+    lbox = []
+    rbox = []
 
     for i,x in enumerate(map_of_warehouse):
         line = ''
@@ -125,18 +121,18 @@ def aoc15():
                 dots.append((2*j + 1,i))
             elif y == 'O':
                 line += '[]'
-                boxs.append((2*j,i))
-                boxs.append((2*j + 1,i))
+                lbox.append((2*j,i))
+                rbox.append((2*j + 1,i))
             else:
                 player = (2*j,i)
                 dots.append((2*j + 1,i))
                 line += "@."
 
-        map_of_scale_warehouse += line
+        map_of_scale_warehouse.append(line)
 
-    print(*map_of_scale_warehouse)
+    print(map_of_scale_warehouse)
 
-    final_boxs = moveRobot2(map_of_scale_warehouse, dots, boxs, player, instructions)
+    final_boxs = moveRobot2(map_of_scale_warehouse, dots, lbox, rbox, player, instructions)
 
     print("part 2: " + str(sum([100*x[1]+x[0] for x in final_boxs])))
 aoc15()
