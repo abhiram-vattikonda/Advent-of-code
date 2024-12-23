@@ -71,6 +71,8 @@ def aoc15():
             if y == '.':
                 dots.append((j, i))
 
-    moveRobot(map_of_warehouse, dots, boxs, player, instructions)
+    final_boxs = moveRobot(map_of_warehouse, dots, boxs, player, instructions)
+
+    print(sum([100*x[1]+x[0] for x in final_boxs]))
 
 aoc15()
