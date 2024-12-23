@@ -29,9 +29,44 @@ def movement(map_of_warehouse, dots :list, boxs : list, player : tuple, y):
 
 
 
+def movement2(map_of_scale_warehouse, dots :list, boxs : list, player : tuple, y):
+    directions = {'^' : (0,-1), 'v' : (0,1), '<' : (-1,0), '>' : (1,0)}
+    inv_directions = {'^' : (0,1), 'v' : (0,-1), '<' : (1,0), '>' : (-1,0)}
 
-def printmap(map_of_warehouse, boxs):
-    print(*[x + '\n' for x in map_of_warehouse])
+    a = addtuple(player, directions[y])
+
+    while a not in dots:
+        if map_of_scale_warehouse[a[1]][a[0]] == '#':
+            return player, boxs, dots
+        
+        a = addtuple(a, directions[y])
+        
+    while addtuple(a, inv_directions[y]) in boxs:
+        boxs.append(a)
+        dots.remove(a)
+        a = addtuple(a, inv_directions[y])
+        boxs.remove(a)
+        dots.append(a)
+        
+    dots.append(player)
+    player = addtuple(player, directions[y])
+    dots.remove(player)
+    return player, boxs, dots
+
+
+
+
+def moveRobot2(map_of_scale_warehouse, dots, boxs, player, instructions):
+    for i, x in enumerate(instructions):
+        for j, y in enumerate(x):
+            player, boxs, dots = movement(map_of_scale_warehouse, dots, boxs, player, y)
+            #print(player)
+            #print(boxs)
+
+    return boxs
+
+
+
 
 def moveRobot(map_of_warehouse, dots, boxs, player, instructions):
     for i, x in enumerate(instructions):
@@ -71,8 +106,37 @@ def aoc15():
             if y == '.':
                 dots.append((j, i))
 
-    final_boxs = moveRobot(map_of_warehouse, dots, boxs, player, instructions)
+    #final_boxs = moveRobot(map_of_warehouse, dots, boxs, player, instructions)
 
-    print(sum([100*x[1]+x[0] for x in final_boxs]))
+    #print("part 1: " + str(sum([100*x[1]+x[0] for x in final_boxs])))
 
+    map_of_scale_warehouse = []
+    dots.clear()
+    boxs.clear()
+
+    for i,x in enumerate(map_of_warehouse):
+        line = ''
+        for j,y in enumerate(x):
+            if y == '#':
+                line += "##"
+            elif y == '.':
+                line += '..'
+                dots.append((2*j,i))
+                dots.append((2*j + 1,i))
+            elif y == 'O':
+                line += '[]'
+                boxs.append((2*j,i))
+                boxs.append((2*j + 1,i))
+            else:
+                player = (2*j,i)
+                dots.append((2*j + 1,i))
+                line += "@."
+
+        map_of_scale_warehouse += line
+
+    print(*map_of_scale_warehouse)
+
+    final_boxs = moveRobot2(map_of_scale_warehouse, dots, boxs, player, instructions)
+
+    print("part 2: " + str(sum([100*x[1]+x[0] for x in final_boxs])))
 aoc15()
