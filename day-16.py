@@ -1,40 +1,41 @@
-
+import heapq
 
 def addtuple(a:tuple, b:tuple):
     return tuple(map(lambda i, j: i + j, a, b))
 
-def find_path(player, char, end, dots, walls, directions, scores):
-    scores = []
+def bfs(player, points, walls, forward, turns):
 
-    
+    pass
 
-    return 
 
 def aoc16():
-    map = []
+    points = []
+    walls = []
+    data = []
 
     with open("puzzle16.txt", 'r') as file:
         for line in file:
-            map.append(line)
+            data.append(line)
 
-    dots = []
-    walls = []
-    for i,x in enumerate(map):
+    height = len(data)
+    width = len(data[0]) - 1
+
+    for i, x in enumerate(data):
         for j, y in enumerate(x):
-            if y == '#'
-                walls.append((j, i))
-            if y == '.'
-                dots.append((j, i))
-            if y == 'S':
-                player = (j, i)
-            if y == 'E':
-                end = (j, i)
+            if y == '.':
+                points.append((i, j))
+            elif y == '#':
+                walls.append((i, j))
+            elif y == 'E':
+                end = (i, j)
+            elif y == 'S':
+                player = (i, j)
 
-    char = '>'
-    directions = {'^' : (0,-1), 'v' : (0,1), '<' : (-1,0), '>' : (1,0)}
+    print(height, width) 
 
-    find_path(player, char, end, dots, walls, directions, 0)
+    bfs(player, points, walls, 0, 0)
 
 
+dir = [(-1, 0), (0, 1), (1, 0), (0, -1)]
 
 aoc16()
