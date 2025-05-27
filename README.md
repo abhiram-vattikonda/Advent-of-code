@@ -7,7 +7,7 @@ Advent of Code is an annual event that provides a series of small programming pu
 ## 📁 Repository Structure
 
 The solutions are organized by year and day, with each folder containing the corresponding Python scripts:
-`
+<pre>
 Advent-of-code/
 ├── 2021/
 │   ├── day01.py
@@ -18,7 +18,8 @@ Advent-of-code/
 │   ├── day02.py
 │   └── ...
 └── README.md
-`
+</pre>
+
 ## 🛠 Technologies Used
 
 - Python 3.x
