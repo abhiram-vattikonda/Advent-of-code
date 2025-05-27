@@ -35,12 +35,13 @@ Advent-of-code/
 2. **Navigate to the desired year's folder**:
 
    ```bash
-   cd 2022
+   cd 2024
    ```
 
 3. **Run the script for the desired day**:
 
    ```bash
+   cd day 1
    python day01.py
    ```
 
@@ -50,10 +51,6 @@ Advent-of-code/
 
 This repository is a personal project showcasing my solutions to the Advent of Code challenges.
 
-That said, contributions are welcome! Feel free to:
-
-* Open issues for bug reports or suggestions
-* Submit pull requests to improve code or add new solutions
 
 ## 📄 License
 
