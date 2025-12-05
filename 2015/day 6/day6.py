@@ -19,7 +19,8 @@ def get_start_end_mode(line):
     return st, end, mode
 
 
-
+def val_loc(loc):
+    return on.get(loc) if on.get(loc) is not None else 0
 
 with open("inp6.txt") as f:
     lines = f.read().splitlines()
@@ -37,14 +38,16 @@ for line in lines:
     for y in range(sty, endy +1):
         for x in range(stx, endx +1):
             loc = (x, y)
-            if mode == 1: on.update({loc : 1})
-            elif mode == 3: on.update({loc : 0})
-            elif mode == 2: on.update({loc : 1 - (on.get(loc) if on.get(loc) is not None else 0)})
+            if mode == 1: on.update({loc : val_loc(loc) + 1})
+            elif mode == 3: on.update({loc : val_loc(loc) - 1 if val_loc(loc) -1 >= 0 else 0})
+            elif mode == 2: on.update({loc : val_loc(loc) + 2})
 
 
-print(Counter(on.values()))
+
+# print(Counter(on.values()))
+print(sum(on.values()))
     
 
-    
+# 14190930 is too low   
 
 print(f"----- {time.time() - start_time} -----")
