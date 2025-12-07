@@ -1,32 +1,40 @@
-import re
+import time, re
 
-def aoc3():
-    data = []
-    with open("puzzle3.txt", 'r') as file:
-        for line in file:
-            data.append(line)
+start_time = time.time()
 
-    sum = 0
-    do = True
+with open("puzzle3.txt") as f:
+    lines = f.read().splitlines()
+# lines = ["xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))"]
 
-    reg = r"(mul\(\d{1,3},\d{1,3}\))|(do\(\))|(don't\(\))"
-    for x in data:
-        li = re.findall(reg, x)
-        #print(li)
-        for y in li:
-            if do == False and y[1] == 'do()':
-                do =True
-                continue
-            
-            if do == True and y[2] == "don't()":
-                do = False
-                continue
+patter = r"mul\(([0-9]+,[0-9]+)\)|(do\(\))|(don't\(\))"
 
-            if do == True and y[1] == '' and y[2] == '':
-                a,b = re.search(r"\d{1,3},\d{1,3}", y[0])[0].split(',')
-                sum += int(a) * int(b)
+sum = 0
+for line in lines:
+    muls = re.findall(patter, line)
+    # print(muls)
+    muls = [i[k] for i in muls for k in range(3) if i[k] != '']
+    
+    print(muls)
 
-            #print(sum)
+    mul = []
+    add = True
+    for m in muls:
+        if (m != "don't()" and m != "do()") and add:
+            mul.append(m)
 
-    print(sum)
-aoc3()
+        else:
+            if m == "don't()":
+                add = False
+            elif m == "do()":
+                add = True
+        
+    mul = [tuple(map(int, i.split(','))) for i in mul]
+    # print(mul)
+    for a in mul:
+        print(a)
+        sum += a[0] * a[1]
+
+print(sum)
+# 102360389 is too high
+
+print(f"----- {time.time() - start_time} -----")

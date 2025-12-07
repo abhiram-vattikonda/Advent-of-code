@@ -43,7 +43,7 @@ def hasXmas(data, currentPos, localPos, direction) -> bool:
 
 def aoc4():
     data = []
-    with open("puzzle4.txt", 'r') as file:
+    with open("test.txt", 'r') as file:
         for line in file:
             data.append(line)
     
