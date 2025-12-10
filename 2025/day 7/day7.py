@@ -2,7 +2,7 @@ import time
 from functools import lru_cache
 start_time = time.time()
 
-with open('inp7.txt') as f:
+with open('test.txt') as f:
     lines = f.read().splitlines()
 
 
