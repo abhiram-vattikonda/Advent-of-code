@@ -18,7 +18,7 @@ print(f"----- {time.time() - start_time} -----")
 
 # PART 2
 def area(line1 :tuple[int, int], line2 :tuple[int, int]):
-    return abs(line1[0]-line2[0] + 1) * abs(line1[1]-line2[1] + 1)
+    return (abs(line1[0]-line2[0])+1) * (abs(line1[1]-line2[1]) + 1)
 
 def add_btw_points(l1, l2):
     new_points = []
