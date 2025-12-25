@@ -65,15 +65,19 @@ spaces = [[tuple(map(int, (space[0][:-1]).split('x'))), list(map(int, space[1:])
 
 # Part 1 but using a trick, this only works for this input not a general solution
 # we should solve it using pack
-fits_count = 0
-for space, gifts in spaces:
-    area_present = space[0] * space[1]
-    area_gifts = 0
-    for i, k in enumerate(gifts):
-        area_gifts += k * shapes[i].area
+# fits_count = 0
+# for space, gifts in spaces:
+#     area_present = space[0] * space[1]
+#     area_gifts = 0
+#     for i, k in enumerate(gifts):
+#         area_gifts += k * shapes[i].area
 
-    if area_present > area_gifts:
-        fits_count += 1
+#     if area_present > area_gifts:
+#         fits_count += 1
+
+
+
+
 
 print("Part 1: ", fits_count)
 
