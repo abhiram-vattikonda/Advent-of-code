@@ -38,14 +38,54 @@ def is_possible(map_of_scale_warehouse, dots, lbox, rbox, player : tuple, y):
     if map_of_scale_warehouse[a[1]][a[0]] == '#':
         return False
     
-    if a in lbox:
-        return is_possible(map_of_scale_warehouse, dots, lbox, rbox, a, y) and is_possible(map_of_scale_warehouse, dots, lbox, rbox, addtuple(a, (1,0)), y)
-    elif a in rbox:
-        return is_possible(map_of_scale_warehouse, dots, lbox, rbox, a, y) and is_possible(map_of_scale_warehouse, dots, lbox, rbox, addtuple(a, (-1,0)), y)
+    if y == "^" or y == 'v':
+        if a in lbox:
+            return is_possible(map_of_scale_warehouse, dots, lbox, rbox, a, y) and is_possible(map_of_scale_warehouse, dots, lbox, rbox, addtuple(a, (1,0)), y)
+        elif a in rbox:
+            return is_possible(map_of_scale_warehouse, dots, lbox, rbox, a, y) and is_possible(map_of_scale_warehouse, dots, lbox, rbox, addtuple(a, (-1,0)), y)
+    
+    else:
+        if a in lbox:
+            return is_possible(map_of_scale_warehouse, dots, lbox, rbox, addtuple(a, (1, 0)), y)
+        if a in rbox:
+            return is_possible(map_of_scale_warehouse, dots, lbox, rbox, addtuple(a, (-1, 0)), y)
+
 
     return False
 
-def move(map_of_scale_warehouse, dots, lbox, rbox, player, y):
+def move(map_of_scale_warehouse, dots :list, lbox :list, rbox :list, player :tuple, y):
+    directions = {'^' : (0,-1), 'v' : (0,1), '<' : (-1,0), '>' : (1,0)}
+    inv_directions = {'^' : (0,1), 'v' : (0,-1), '<' : (1,0), '>' : (-1,0)}
+
+
+    a = addtuple(player, directions[y])
+ 
+    if y == "^" or y == 'v':
+        if a in lbox:
+            dots, lbox, rbox, p = move(map_of_scale_warehouse, dots, lbox, rbox, a, y)
+            dots, lbox, rbox, p = move(map_of_scale_warehouse, dots, lbox, rbox, addtuple(a,directions['>']), y)
+        if a in rbox:
+            dots, lbox, rbox, p = move(map_of_scale_warehouse, dots, lbox, rbox, a, y)
+            dots, lbox, rbox, p = move(map_of_scale_warehouse, dots, lbox, rbox, addtuple(a,directions['<']), y)
+    
+    else:
+        if a in lbox:
+            dots, lbox, rbox, p = move(map_of_scale_warehouse, dots, lbox, rbox, a, y)
+        if a in rbox:
+            dots, lbox, rbox, p = move(map_of_scale_warehouse, dots, lbox, rbox, a, y)
+
+
+    if a in dots:
+        if map_of_scale_warehouse[player[1]][player[0]] == '[':
+            lbox.remove(player)
+            lbox.append(a)
+        if map_of_scale_warehouse[player[1]][player[0]] == ']':
+            rbox.remove(player)
+            rbox.append(a)
+        map_of_scale_warehouse[player[1]][player[0]],  map_of_scale_warehouse[a[1]][a[0]] = map_of_scale_warehouse[a[1]][a[0]],  map_of_scale_warehouse[player[1]][player[0]]
+        dots.remove(a)
+        dots.append(player)
+        player = a
 
     return dots, lbox, rbox, player
 
@@ -55,6 +95,10 @@ def moveRobot2(map_of_scale_warehouse, dots, lbox, rbox, player, instructions):
             if is_possible(map_of_scale_warehouse, dots, lbox, rbox, player, y):
                 dots, lbox, rbox, player = move(map_of_scale_warehouse, dots, lbox, rbox, player, y)
 
+            # print(y)
+            # print_grid(map_of_scale_warehouse)
+            # print()
+            
             #print(player)
             #print(boxs)
 
@@ -72,6 +116,9 @@ def moveRobot(map_of_warehouse, dots, boxs, player, instructions):
 
     return boxs
 
+def print_grid(map_of_scale_warehouse):
+    for a in map_of_scale_warehouse:
+        print("".join(a))
 
 
 def aoc15():
@@ -101,9 +148,9 @@ def aoc15():
             if y == '.':
                 dots.append((j, i))
 
-    #final_boxs = moveRobot(map_of_warehouse, dots, boxs, player, instructions)
+    final_boxs = moveRobot(map_of_warehouse, dots, boxs, player, instructions)
 
-    #print("part 1: " + str(sum([100*x[1]+x[0] for x in final_boxs])))
+    print("part 1: " + str(sum([100*x[1]+x[0] for x in final_boxs])))
 
     map_of_scale_warehouse = []
     dots.clear()
@@ -130,8 +177,10 @@ def aoc15():
 
         map_of_scale_warehouse.append(line)
 
-    print(map_of_scale_warehouse)
+    map_of_scale_warehouse = [list(row) for row in map_of_scale_warehouse]
 
+
+    print_grid(map_of_scale_warehouse)
     final_boxs = moveRobot2(map_of_scale_warehouse, dots, lbox, rbox, player, instructions)
 
     print("part 2: " + str(sum([100*x[1]+x[0] for x in final_boxs])))

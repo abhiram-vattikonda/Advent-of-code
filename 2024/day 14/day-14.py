@@ -28,8 +28,13 @@ def clustered(seconds, pos,width, height):
 def p2(width, height, p ,v):
     count = len(p)
     pos = []
-    for seconds in range(7050,7200):
-        print(seconds)
+
+    minx = float('inf')
+    miny = float('inf')
+    sdx_values = []
+    sdy_values = []
+    for seconds in range(8150, 8200):
+        # print(seconds)
         for i, t in enumerate(p):
             x2 = (p[i][0] + v[i][0] * seconds) % width
             y2 = (p[i][1] + v[i][1] * seconds) % height
@@ -37,18 +42,51 @@ def p2(width, height, p ,v):
             y = y2 if y2>=0 else y2 + height
             pos.append([x,y])
 
-        with open('text.txt', 'a') as file:
-            for i in range(103):
-                for j in range(101):
-                    if [j, i] in pos:
-                        file.write("#")
-                    else:
-                        file.write(".")
+        xs = [p[0] for p in pos]
+        ys = [p[1] for p in pos]
+        n = len(pos)
 
-                file.write("\n")
+        x_mean = sum(xs) / n
+        y_mean = sum(ys) / n
+        var_x = sum((x - x_mean)**2 for x in xs) / (n - 1)
+        var_y = sum((y - y_mean)**2 for y in ys) / (n - 1)
 
-            file.write(f"------| {seconds} |-------\n\n")
+        import math
+
+        sdx = math.sqrt(var_x)
+        sdy = math.sqrt(var_y)
+
+        sdx_values.append(sdx)
+        sdy_values.append(sdy)
+
+        if sdx < 20 and sdy < 20:
+            print(seconds)
+    
+            with open('text.txt', 'a') as file:
+                for i in range(103):
+                    for j in range(101):
+                        if [j, i] in pos:
+                            file.write("#")
+                        else:
+                            file.write(".")
+
+                    file.write("\n")
+
+                file.write(f"------| {seconds} |-------\n\n")
         pos.clear()
+
+
+    import matplotlib.pyplot as plt
+
+    plt.scatter(sdx_values, sdy_values)
+    plt.xlabel("sdx")
+    plt.ylabel("sdy")
+    plt.title("sdx vs sdy")
+    plt.grid(True)
+
+    plt.show()
+
+
 
 
 def aoc14():

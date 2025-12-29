@@ -12,6 +12,7 @@ def parsedata(data : list[str]):
         elif i % 4 == 2:
             # the '+10000000000000' should be there for part2, but should be removed for part 1
             res.append([int(x.strip().split('=')[1])+10000000000000 for x in d.split(':')[1].split(',')])
+            # res.append([int(x.strip().split('=')[1]) for x in d.split(':')[1].split(',')])
         else:
             pass
 
@@ -28,7 +29,8 @@ def aoc13():
 
     a, b, end = parsedata(data)
     sum = 0
-    for i in range(mechines):
+    for i in range(mechines+1):
+        # intersection between 2 lines formule
         n = -(b[i][0]*end[i][1] - b[i][1]*end[i][0]) / (a[i][0]*b[i][1] - a[i][1]*b[i][0])
         m = -(end[i][0]*a[i][1] - end[i][1]*a[i][0]) / (a[i][0]*b[i][1] - a[i][1]*b[i][0])
         
@@ -38,8 +40,10 @@ def aoc13():
             m = int(m)
         
         if type(n) == int and type(m) == int:
+            print(i)
             sum += 3*n + m
       
     print(sum)
 
+# 105758081268515 is too low
 aoc13()

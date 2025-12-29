@@ -10,7 +10,7 @@ def canform(result, nums, i, sumtillnow, concat):
     
     #Check if adding of multiplying the current sum and next will give the ans
     # if concat is true, also check for the operation with concatination
-    return canform(result, nums, i+1, sumtillnow + nums[i], concat) or (concat and canform(result, nums, i+1, sumtillnow * nums[i], concat) or canform(result, nums, i+1, int(str(sumtillnow) + str(nums[i])), concat))
+    return canform(result, nums, i+1, sumtillnow + nums[i], concat) or canform(result, nums, i+1, sumtillnow * nums[i], concat) or (concat and canform(result, nums, i+1, int(str(sumtillnow) + str(nums[i])), concat))
 
 
 def aoc7():

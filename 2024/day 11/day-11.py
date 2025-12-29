@@ -17,11 +17,11 @@ def remake(data, steps) -> list:
 
 def aoc10():
     data = []
-    with open('puzzle11.txt', 'r') as file:
+    with open('test.txt', 'r') as file:
         data = [int(x) for x in file.read().split()]
 
     sum = 0
-    count = 200
+    count = 75
     for d in data:
         sum += remake(d, count)
         
