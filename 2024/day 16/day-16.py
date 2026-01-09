@@ -3,9 +3,18 @@ import heapq
 def addtuple(a:tuple, b:tuple):
     return tuple(map(lambda i, j: i + j, a, b))
 
-def bfs(player, points, walls, forward, turns):
+def rotate_right(x :tuple[int, int]):
+    return (-x[1], x[0])
 
-    pass
+def rotate_left(x :tuple[int, int]):
+    return (x[1], -x[0])
+
+   
+    
+def bfs(player, points, walls, direction, forward, turns):
+
+    return forward, turns
+
 
 
 def aoc16():
@@ -33,7 +42,7 @@ def aoc16():
 
     print(height, width) 
 
-    bfs(player, points, walls, 0, 0)
+    forward, turns = bfs(player, points, walls, (0, -1), 0, 0)
 
 
 dir = [(-1, 0), (0, 1), (1, 0), (0, -1)]
