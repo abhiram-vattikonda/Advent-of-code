@@ -1,61 +1,77 @@
-# Advent of Code by Abhiram Vattikonda
+# Advent of Code
 
-This repository contains my solutions to the [Advent of Code](https://adventofcode.com/) challenges.
+Python solutions for [Advent of Code](https://adventofcode.com/) puzzles.
 
-Advent of Code is an annual event that provides a series of small programming puzzles for a variety of skill sets and skill levels. These puzzles are released daily from December 1st to December 25th each year. The problems vary in difficulty and often require creative algorithmic thinking.
+This repository is organized by year and day. Each day folder usually contains a Python solution script and the puzzle input used for that solution.
 
-## 📁 Repository Structure
+## Progress
 
-The solutions are organized by year and day, with each folder containing the corresponding Python scripts:
-<pre>
+| Year | Completed days in this repo |
+| --- | --- |
+| 2015 | 1, 2, 3, 5, 6 |
+| 2024 | 1-15, 17 |
+| 2025 | 1-12 |
+
+## Repository Layout
+
+```text
 Advent-of-code/
-├── 2021/
-│   ├── day01.py
-│   ├── day02.py
-│   └── ...
-├── 2022/
-│   ├── day01.py
-│   ├── day02.py
-│   └── ...
-└── README.md
-</pre>
++-- 2015/
+|   +-- day 1/
+|   |   +-- day1.py
+|   |   +-- inp1.txt
+|   +-- ...
++-- 2024/
+|   +-- day 1/
+|   |   +-- day-1.py
+|   |   +-- puzzle1.txt
+|   +-- ...
++-- 2025/
+|   +-- day 1/
+|   |   +-- day1.py
+|   |   +-- inp1.txt
+|   +-- ...
++-- README.md
+```
 
-## 🛠 Technologies Used
+Some scratch or in-progress files may live at the repository root before being moved into a year/day folder.
+
+## Requirements
 
 - Python 3.x
-- Standard Python libraries (no external dependencies)
+- No third-party Python packages are required for the checked-in solutions.
 
-## ▶️ How to Run
+## Running a Solution
 
-1. **Clone the repository**:
+Clone the repository:
 
-   ```bash
-   git clone https://github.com/abhiram-vattikonda/Advent-of-code.git
-   cd Advent-of-code
+```bash
+git clone https://github.com/abhiram-vattikonda/Advent-of-code.git
+cd Advent-of-code
+```
 
-2. **Navigate to the desired year's folder**:
+Run any day script from its folder:
 
-   ```bash
-   cd 2024
-   ```
+```bash
+cd "2024/day 1"
+python day-1.py
+```
 
-3. **Run the script for the desired day**:
+For older folders that use the `day1.py` naming style:
 
-   ```bash
-   cd day 1
-   python day01.py
-   ```
+```bash
+cd "2015/day 1"
+python day1.py
+```
 
-> Make sure you have Python 3 installed on your system. You can check this by running `python --version` or `python3 --version`.
+On some systems, use `python3` instead of `python`.
 
-## 🤝 Contributing
+## Notes
 
-This repository is a personal project showcasing my solutions to the Advent of Code challenges.
+- Puzzle inputs are included alongside the solution scripts where available.
+- Solutions favor direct, readable Python over shared framework code.
+- File and folder names preserve the style used while solving each puzzle.
 
+## About Advent of Code
 
-## 📄 License
-
-This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for more details.
-
-
-Happy Coding! 🎄🧩
+Advent of Code is an annual set of programming puzzles released each December. The puzzles are great practice for parsing, search, dynamic programming, graph traversal, simulation, and other problem-solving techniques.
